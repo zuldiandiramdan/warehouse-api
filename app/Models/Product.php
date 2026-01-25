@@ -14,4 +14,12 @@ class Product extends Model
     {
         return $this->belongsTo(Unit::class);
     }
+
+    public function transactionDetails()
+    {
+        return $this->hasMany(
+            TransactionDetail::class,
+            'product_id'
+        );
+    }
 }

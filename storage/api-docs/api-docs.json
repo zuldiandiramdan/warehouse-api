@@ -50,6 +50,47 @@
                     }
                 }
             }
+        },
+        "/api/transaction/insert": {
+            "post": {
+                "tags": [
+                    "TransactionsMaster"
+                ],
+                "summary": "Create transaction and update product stock",
+                "operationId": "91a78d57c0df4d210f754b2ecbad6503",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/TransactionInsertRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Transaction created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/TransactionInsertResponse"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ValidationErrorResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -174,6 +215,155 @@
                     }
                 },
                 "type": "object"
+            },
+            "TransactionItem": {
+                "properties": {
+                    "product_id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "price": {
+                        "type": "number",
+                        "format": "decimal",
+                        "example": 1000
+                    },
+                    "qty": {
+                        "type": "integer",
+                        "example": 4
+                    },
+                    "product": {
+                        "$ref": "#/components/schemas/Product"
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionMaster": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 13
+                    },
+                    "transaction_date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-01-25T15:19:57.982423Z"
+                    },
+                    "transaction_type": {
+                        "$ref": "#/components/schemas/TransactionType"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TransactionItem"
+                        }
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-01-25T15:19:57.000000Z"
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionType": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 2
+                    },
+                    "type_name": {
+                        "type": "string",
+                        "example": "Pengeluaran"
+                    },
+                    "is_decreasing": {
+                        "type": "boolean",
+                        "example": true
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionInsertRequest": {
+                "required": [
+                    "type",
+                    "items"
+                ],
+                "properties": {
+                    "type": {
+                        "description": "Must exist in transaction_types.typename",
+                        "type": "string",
+                        "example": "OUT"
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/TransactionItemRequest"
+                        },
+                        "minItems": 1
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionItemRequest": {
+                "required": [
+                    "productId",
+                    "productPrice",
+                    "qty"
+                ],
+                "properties": {
+                    "productId": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "productPrice": {
+                        "type": "integer",
+                        "example": 1000
+                    },
+                    "qty": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "example": 5
+                    }
+                },
+                "type": "object"
+            },
+            "TransactionInsertResponse": {
+                "required": [
+                    "success",
+                    "message",
+                    "data"
+                ],
+                "properties": {
+                    "success": {
+                        "type": "boolean",
+                        "example": true
+                    },
+                    "message": {
+                        "type": "string",
+                        "example": "Transaction created successfully"
+                    },
+                    "data": {
+                        "$ref": "#/components/schemas/TransactionMaster"
+                    }
+                },
+                "type": "object"
+            },
+            "ValidationErrorResponse": {
+                "properties": {
+                    "message": {
+                        "type": "string",
+                        "example": "The given data was invalid."
+                    },
+                    "errors": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "type": "object"
             }
         }
     },
@@ -181,6 +371,10 @@
         {
             "name": "Products",
             "description": "Products"
+        },
+        {
+            "name": "TransactionsMaster",
+            "description": "TransactionsMaster"
         }
     ]
 }
