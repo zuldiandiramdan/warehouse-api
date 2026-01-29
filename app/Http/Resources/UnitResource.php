@@ -16,7 +16,10 @@ class UnitResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'unit_name' => $this->unit_name
+            'unit_name' => $this->unit_name,
+            'is_big_unit' => $this->is_big_unit,
+            'smallest_unit_id' => $this->smallest_unit_id,
+            'smallest_amount' => $this->smallest_amount
         ];
     }
 }

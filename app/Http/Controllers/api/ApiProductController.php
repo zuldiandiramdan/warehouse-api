@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Http\Resources\ProductResource;
 use App\Helper\PaginationHelper;
+use App\Http\Requests\StoreProductRequest;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
@@ -42,7 +43,7 @@ class ApiProductController extends Controller
             )
         ]
     )]
-    public function getListPaginated(Request $request)
+    public function index(Request $request)
     {
         $query = Product::query();
 
@@ -53,5 +54,64 @@ class ApiProductController extends Controller
         $products = PaginationHelper::paginate($query, $request);
 
         return ProductResource::collection($products);
+    }
+
+    #[OA\Post(
+        path: '/api/products',
+        tags: ['Products'],
+        summary: 'Store Product',
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                required: [
+                    'product_name',
+                    'product_selling_price',
+                    'product_buying_price',
+                    'unit_id',
+                    'product_stock'
+                ],
+                properties: [
+                    new OA\Property(
+                        property: 'product_name',
+                        type: 'string'
+                    ),
+                    new OA\Property(
+                        property: 'product_selling_price',
+                        type: 'number',
+                        format: 'float'
+                    ),
+                    new OA\Property(
+                        property: 'product_buying_price',
+                        type: 'number',
+                        format: 'float'
+                    ),
+                    new OA\Property(
+                        property: 'unit_id',
+                        type: 'integer'
+                    ),
+                    new OA\Property(
+                        property: 'product_stock',
+                        type: 'integer'
+                    ),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: 'Created Product',
+                content: new OA\JsonContent(
+                    ref: '#/components/schemas/ProductStoreResponse'
+                )
+            )
+        ]
+    )]
+    public function store(StoreProductRequest $request)
+    {
+        $product = Product::create($request->validated());
+        $product->load('unit');
+        return (new ProductResource($product))
+            ->response()
+            ->setStatusCode(201);
     }
 }

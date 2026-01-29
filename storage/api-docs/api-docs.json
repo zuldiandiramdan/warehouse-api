@@ -11,7 +11,7 @@
                     "Products"
                 ],
                 "summary": "Get paginated products",
-                "operationId": "368b48e2138761e1e550020b1da58f40",
+                "operationId": "ec5306a3c5913c4991e8b5bf30c441f2",
                 "parameters": [
                     {
                         "name": "page",
@@ -44,6 +44,61 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/PaginatedProductResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Store Product",
+                "operationId": "9351d26c781ab39f2668abdb2be6108d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "product_name",
+                                    "product_selling_price",
+                                    "product_buying_price",
+                                    "unit_id",
+                                    "product_stock"
+                                ],
+                                "properties": {
+                                    "product_name": {
+                                        "type": "string"
+                                    },
+                                    "product_selling_price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "product_buying_price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "unit_id": {
+                                        "type": "integer"
+                                    },
+                                    "product_stock": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created Product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductStoreResponse"
                                 }
                             }
                         }
@@ -282,6 +337,27 @@
                 },
                 "type": "object"
             },
+            "Unit": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "unit_name": {
+                        "type": "string",
+                        "example": "Laptop"
+                    },
+                    "is_big_unit": {
+                        "type": "string",
+                        "example": "77614.00"
+                    },
+                    "smallest_unit_id": {
+                        "type": "integer",
+                        "example": 10
+                    }
+                },
+                "type": "object"
+            },
             "TransactionInsertRequest": {
                 "required": [
                     "type",
@@ -325,6 +401,21 @@
                     }
                 },
                 "type": "object"
+            },
+            "ProductStoreResponse": {
+                "allOf": [
+                    {
+                        "$ref": "#/components/schemas/Product"
+                    },
+                    {
+                        "properties": {
+                            "unit": {
+                                "$ref": "#/components/schemas/Unit"
+                            }
+                        },
+                        "type": "object"
+                    }
+                ]
             },
             "TransactionInsertResponse": {
                 "required": [

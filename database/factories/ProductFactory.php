@@ -19,7 +19,8 @@ class ProductFactory extends Factory
     {
         return [
             'product_name' => fake()->name(),
-            'product_price' => fake()->numberBetween(1000, 100000),
+            'product_buying_price' => fake()->numberBetween(1000, 100000),
+            'product_selling_price' => fake()->numberBetween(1000, 100000),
             'unit_id' => Unit::inRandomOrder()->value('id')
         ];
     }
