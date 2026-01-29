@@ -106,6 +106,94 @@
                 }
             }
         },
+        "/api/products/{id}": {
+            "put": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Update Product",
+                "operationId": "bc38dad9d4575ef654adde6011ea7ee0",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "product_name": {
+                                        "type": "string"
+                                    },
+                                    "product_selling_price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "product_buying_price": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "unit_id": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created Product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ProductStoreResponse"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Delete Product",
+                "description": "Deletes a product by ID",
+                "operationId": "955f4062762f3ec11fbc3a4aef7586bd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Product deleted successfully"
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            }
+        },
         "/api/transaction/insert": {
             "post": {
                 "tags": [
@@ -340,20 +428,19 @@
             "Unit": {
                 "properties": {
                     "id": {
-                        "type": "integer",
-                        "example": 1
+                        "type": "integer"
                     },
                     "unit_name": {
-                        "type": "string",
-                        "example": "Laptop"
+                        "type": "string"
                     },
                     "is_big_unit": {
-                        "type": "string",
-                        "example": "77614.00"
+                        "type": "boolean"
                     },
                     "smallest_unit_id": {
-                        "type": "integer",
-                        "example": 10
+                        "type": "integer"
+                    },
+                    "smallest_amount": {
+                        "type": "integer"
                     }
                 },
                 "type": "object"

@@ -8,7 +8,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
 Route::resource('products', ApiProductController::class)->only([
-    'index','store'
+    'index','store','update', 'destroy'
 ]);
 
 Route::post('/transaction/insert',[ApiTransactionController::class, 'store']);

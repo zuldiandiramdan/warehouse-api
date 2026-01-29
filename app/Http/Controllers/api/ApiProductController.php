@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Http\Resources\ProductResource;
 use App\Helper\PaginationHelper;
 use App\Http\Requests\StoreProductRequest;
+use App\Http\Requests\UpdateProductRequest;
 use Illuminate\Http\Request;
 use OpenApi\Attributes as OA;
 
@@ -113,5 +114,99 @@ class ApiProductController extends Controller
         return (new ProductResource($product))
             ->response()
             ->setStatusCode(201);
+    }
+
+    #[OA\Put(
+        path: '/api/products/{id}',
+        tags: ['Products'],
+        summary: 'Update Product',
+        parameters: [
+            new OA\Parameter(
+                name: 'id',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                    example: 1
+                )
+            ),
+        ],
+        requestBody: new OA\RequestBody(
+            required: true,
+            content: new OA\JsonContent(
+                properties: [
+                    new OA\Property(
+                        property: 'product_name',
+                        type: 'string'
+                    ),
+                    new OA\Property(
+                        property: 'product_selling_price',
+                        type: 'number',
+                        format: 'float'
+                    ),
+                    new OA\Property(
+                        property: 'product_buying_price',
+                        type: 'number',
+                        format: 'float'
+                    ),
+                    new OA\Property(
+                        property: 'unit_id',
+                        type: 'integer'
+                    ),
+                ]
+            )
+        ),
+        responses: [
+            new OA\Response(
+                response: 201,
+                description: 'Created Product',
+                content: new OA\JsonContent(
+                    ref: '#/components/schemas/ProductStoreResponse'
+                )
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'Product not found'
+            )
+        ]
+    )]
+    public function update(UpdateProductRequest $request, Product $product)
+    {
+        $product->update($request->validated());
+        $product->load('unit');
+        return (new ProductResource($product));
+    }
+
+    #[OA\Delete(
+        path: '/api/products/{id}',
+        tags: ['Products'],
+        summary: 'Delete Product',
+        description: 'Deletes a product by ID',
+        parameters: [
+            new OA\Parameter(
+                name: 'id',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(
+                    type: 'integer',
+                    example: 1
+                )
+            ),
+        ],
+        responses: [
+            new OA\Response(
+                response: 204,
+                description: 'Product deleted successfully'
+            ),
+            new OA\Response(
+                response: 404,
+                description: 'Product not found'
+            )
+        ]
+    )]
+    public function destroy(Product $product)
+    {
+        $product->delete();
+        return response()->noContent(); // 204
     }
 }
