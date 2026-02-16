@@ -11,7 +11,7 @@ class UpdateUnitRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class UpdateUnitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'unit_name' => ['sometimes','numeric'],
+            'is_big_unit' => ['sometimes', 'boolean'],
+            'smallest_unit_id' => ['sometimes', 'exists:unit'],
+            'smallest_amount' => ['sometimes','numeric']
         ];
     }
 }

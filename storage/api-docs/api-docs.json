@@ -234,6 +234,185 @@
                     }
                 }
             }
+        },
+        "/api/units": {
+            "get": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Get paginated Units",
+                "operationId": "cf1b5725d944f197e6a21e84740a7e56",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Paginated unit list",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PaginatedUnitResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Store Unit",
+                "operationId": "2562b6f8be60551efdb4b00e7c95175b",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "unit_name"
+                                ],
+                                "properties": {
+                                    "unit_name": {
+                                        "type": "string"
+                                    },
+                                    "is_big_unit": {
+                                        "type": "boolean"
+                                    },
+                                    "smallest_unit_id": {
+                                        "type": "number",
+                                        "format": "integer"
+                                    },
+                                    "smallest_amount": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created Unit",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unit"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/units/{id}": {
+            "put": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Update Unit",
+                "operationId": "bd9493b6b6ff0792d706fbb1c40441db",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "unit_name": {
+                                        "type": "string"
+                                    },
+                                    "is_big_unit": {
+                                        "type": "boolean"
+                                    },
+                                    "smallest_unit_id": {
+                                        "type": "integer"
+                                    },
+                                    "smallest_amount": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created Unit",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Unit"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Product not found"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Delete Unit",
+                "description": "Deletes a unit by ID",
+                "operationId": "9683651091692c1f9deb41fafa83c012",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Unit deleted successfully"
+                    },
+                    "404": {
+                        "description": "Unit not found"
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -266,6 +445,24 @@
                     }
                 },
                 "type": "object"
+            },
+            "PaginatedUnitResponse": {
+                "allOf": [
+                    {
+                        "properties": {
+                            "data": {
+                                "type": "array",
+                                "items": {
+                                    "$ref": "#/components/schemas/Unit"
+                                }
+                            }
+                        },
+                        "type": "object"
+                    },
+                    {
+                        "$ref": "#/components/schemas/PaginatedResponseBase"
+                    }
+                ]
             },
             "PaginationLinks": {
                 "properties": {
@@ -553,6 +750,10 @@
         {
             "name": "TransactionsMaster",
             "description": "TransactionsMaster"
+        },
+        {
+            "name": "Units",
+            "description": "Units"
         }
     ]
 }

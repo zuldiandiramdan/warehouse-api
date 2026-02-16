@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->id();
             $table->string('unit_name', 100);
-            $table->boolean('is_big_unit');
+            $table->boolean('is_big_unit')->default(false);
             $table->foreignIdFor(Unit::class, 'smallest_unit_id')->nullable()->nullOnDelete();
             $table->integer('smallest_amount')->nullable();
         });
