@@ -56,6 +56,39 @@ class ApiUnitController extends Controller
         return UnitResource::collection($units);
     }
 
+    #[OA\Get(
+        path: '/api/units/{id}',
+        tags: ['Units'],
+        summary: 'Get Unit detail',
+        parameters: [
+            new OA\Parameter(
+                name: 'id',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'integer')
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Success',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/Unit'
+                        )
+                    ]
+                )
+            )
+        ]
+    )]
+    public function show(Unit $unit)
+    {
+        return new UnitResource($unit);
+    }
+    
     #[OA\Post(
         path: '/api/units',
         tags: ['Units'],

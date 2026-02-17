@@ -57,6 +57,40 @@ class ApiProductController extends Controller
         return ProductResource::collection($products);
     }
 
+    #[OA\Get(
+        path: '/api/products/{id}',
+        tags: ['Products'],
+        summary: 'Get product detail',
+        parameters: [
+            new OA\Parameter(
+                name: 'id',
+                in: 'path',
+                required: true,
+                schema: new OA\Schema(type: 'integer')
+            )
+        ],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Success',
+                content: new OA\JsonContent(
+                    type: 'object',
+                    properties: [
+                        new OA\Property(
+                            property: 'data',
+                            ref: '#/components/schemas/ProductUnit'
+                        )
+                    ]
+                )
+            )
+        ]
+    )]
+    public function show(Product $product)
+    {
+        $product->load('unit');
+        return new ProductResource($product);
+    }
+
     #[OA\Post(
         path: '/api/products',
         tags: ['Products'],

@@ -107,6 +107,40 @@
             }
         },
         "/api/products/{id}": {
+            "get": {
+                "tags": [
+                    "Products"
+                ],
+                "summary": "Get product detail",
+                "operationId": "cedc77ecbef4cd9274743d63284d485e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/ProductUnit"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "put": {
                 "tags": [
                     "Products"
@@ -329,6 +363,40 @@
             }
         },
         "/api/units/{id}": {
+            "get": {
+                "tags": [
+                    "Units"
+                ],
+                "summary": "Get Unit detail",
+                "operationId": "d0c136f04cbf8551220b6c2baec1e0b7",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/components/schemas/Unit"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "put": {
                 "tags": [
                     "Units"
@@ -552,6 +620,30 @@
                     "product_stock": {
                         "type": "integer",
                         "example": 10
+                    }
+                },
+                "type": "object"
+            },
+            "ProductUnit": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "product_name": {
+                        "type": "string",
+                        "example": "Laptop"
+                    },
+                    "product_price": {
+                        "type": "string",
+                        "example": "77614.00"
+                    },
+                    "product_stock": {
+                        "type": "integer",
+                        "example": 10
+                    },
+                    "unit": {
+                        "$ref": "#/components/schemas/Unit"
                     }
                 },
                 "type": "object"
