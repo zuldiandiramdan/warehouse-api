@@ -22,7 +22,7 @@ class StoreUnitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'unit_name' => ['required','numeric'],
+            'unit_name' => ['required'],
             'is_big_unit' => ['sometimes','boolean'],
             'smallest_unit_id' => ['sometimes','exists:unit'],
             'smallest_amount' => ['sometimes','numeric']
