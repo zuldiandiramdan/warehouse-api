@@ -22,7 +22,7 @@ class UpdateUnitRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'unit_name' => ['sometimes','numeric'],
+            'unit_name' => ['sometimes'],
             'is_big_unit' => ['sometimes', 'boolean'],
             'smallest_unit_id' => ['sometimes', 'exists:unit'],
             'smallest_amount' => ['sometimes','numeric']
