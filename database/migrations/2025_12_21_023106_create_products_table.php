@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Company;
 use App\Models\Unit;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -18,6 +19,7 @@ return new class extends Migration
             $table->decimal('product_selling_price',10)->default(0);
             $table->decimal('product_buying_price',10)->default(0);
             $table->foreignIdFor(Unit::class);
+            $table->foreignIdFor(Company::class);
             $table->integer('product_stock')->default(0);
             $table->timestamps();
         });

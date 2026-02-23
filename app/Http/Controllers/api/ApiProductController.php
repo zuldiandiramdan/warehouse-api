@@ -72,6 +72,9 @@ class ApiProductController extends Controller
                 schema: new OA\Schema(type: 'integer')
             )
         ],
+        security: [
+            ['sanctum' => []] // Require token (Laravel Sanctum)
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -134,6 +137,9 @@ class ApiProductController extends Controller
                 ]
             )
         ),
+        security: [
+            ['sanctum' => []] // Require token (Laravel Sanctum)
+        ],
         responses: [
             new OA\Response(
                 response: 201,
@@ -193,6 +199,9 @@ class ApiProductController extends Controller
                 ]
             )
         ),
+        security: [
+            ['sanctum' => []] // Require token (Laravel Sanctum)
+        ],
         responses: [
             new OA\Response(
                 response: 201,
@@ -229,6 +238,9 @@ class ApiProductController extends Controller
                     example: 1
                 )
             ),
+        ],
+        security: [
+            ['sanctum' => []] // Require token (Laravel Sanctum)
         ],
         responses: [
             new OA\Response(

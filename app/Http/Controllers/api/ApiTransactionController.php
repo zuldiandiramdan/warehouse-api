@@ -19,6 +19,9 @@ class ApiTransactionController extends Controller
             required: true,
             content: new OA\JsonContent(ref: '#/components/schemas/TransactionInsertRequest')
         ),
+        security: [
+            ['sanctum' => []] // Require token (Laravel Sanctum)
+        ],
         responses: [
             new OA\Response(
                 response: 200,

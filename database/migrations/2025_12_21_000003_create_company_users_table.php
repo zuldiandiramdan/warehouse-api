@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Company;
-use App\Models\TransactionType;
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transaction_masters', function (Blueprint $table) {
+        Schema::create('company_users', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('transaction_date');
-            $table->foreignIdFor(TransactionType::class, 'transaction_type_id');
+            $table->foreignIdFor(User::class);
             $table->foreignIdFor(Company::class);
-            $table->timestamps();
         });
     }
 
@@ -27,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transaction_masters');
+        Schema::dropIfExists('company_users');
     }
 };

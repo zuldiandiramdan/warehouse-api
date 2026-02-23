@@ -34,6 +34,9 @@ class ApiUnitController extends Controller
                 schema: new OA\Schema(type: 'string')
             ),
         ],
+        security: [
+            ['sanctum' => []] // Require token (Laravel Sanctum)
+        ],
         responses: [
             new OA\Response(
                 response: 200,
@@ -67,6 +70,9 @@ class ApiUnitController extends Controller
                 required: true,
                 schema: new OA\Schema(type: 'integer')
             )
+        ],
+        security: [
+            ['sanctum' => []] // Require token (Laravel Sanctum)
         ],
         responses: [
             new OA\Response(
@@ -120,6 +126,9 @@ class ApiUnitController extends Controller
                 ]
             )
         ),
+        security: [
+            ['sanctum' => []] // Require token (Laravel Sanctum)
+        ],
         responses: [
             new OA\Response(
                 response: 201,
@@ -152,6 +161,9 @@ class ApiUnitController extends Controller
                     example: 1
                 )
             ),
+        ],
+        security: [
+            ['sanctum' => []] // Require token (Laravel Sanctum)
         ],
         requestBody: new OA\RequestBody(
             required: true,
@@ -211,6 +223,9 @@ class ApiUnitController extends Controller
                     example: 1
                 )
             ),
+        ],
+        security: [
+            ['sanctum' => []] // Require token (Laravel Sanctum)
         ],
         responses: [
             new OA\Response(
