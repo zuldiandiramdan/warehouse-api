@@ -1,19 +1,32 @@
 <?php
 
+use App\Http\Controllers\api\ApiAuthController;
 use App\Http\Controllers\api\ApiProductController;
 use App\Http\Controllers\api\ApiTransactionController;
 use App\Http\Controllers\api\ApiUnitController;
-use App\Http\Controllers\ProductController;
-use App\Http\Resources\ProductResource;
-use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
-Route::resource('products', ApiProductController::class)->only([
-    'index', 'show', 'store','update', 'destroy'
-]);
+Route::post('/login', [ApiAuthController::class, 'login']);
+Route::post('/register', [ApiAuthController::class, 'register']);
 
-Route::resource('units', ApiUnitController::class)->only([
-    'index', 'show', 'store','update', 'destroy'
-]);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::resource('products', ApiProductController::class)->only([
+        'index',
+        'show',
+        'store',
+        'update',
+        'destroy'
+    ]);
 
-Route::post('/transaction/insert',[ApiTransactionController::class, 'store']);
+    Route::resource('units', ApiUnitController::class)->only([
+        'index',
+        'show',
+        'store',
+        'update',
+        'destroy'
+    ]);
+
+    Route::post('/transaction/insert', [ApiTransactionController::class, 'store']);
+
+    Route::post('logout', [ApiAuthController::class, 'logout']);
+});

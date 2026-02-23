@@ -34,6 +34,9 @@ class ApiProductController extends Controller
                 schema: new OA\Schema(type: 'string')
             ),
         ],
+        security: [
+            ['sanctum' => []] // Require token (Laravel Sanctum)
+        ],
         responses: [
             new OA\Response(
                 response: 200,
