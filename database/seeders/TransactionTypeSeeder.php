@@ -17,10 +17,12 @@ class TransactionTypeSeeder extends Seeder
             [
                 'type_name' => 'Pemasukan',
                 'is_decreasing' => false,
+                'company_id' => 1,
             ],
             [
                 'type_name' => 'Pengeluaran',
                 'is_decreasing' => true,
+                'company_id' => 1
             ]
         ]);
     }

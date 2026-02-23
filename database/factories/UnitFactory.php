@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,6 +20,7 @@ class UnitFactory extends Factory
         return [
             'unit_name' => fake()->randomLetter(),
             'is_big_unit' => fake()->boolean(),
+            'company_id' => Company::inRandomOrder()->value('id')
         ];
     }
 }

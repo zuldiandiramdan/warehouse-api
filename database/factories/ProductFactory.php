@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Company;
 use App\Models\Unit;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,7 +22,8 @@ class ProductFactory extends Factory
             'product_name' => fake()->name(),
             'product_buying_price' => fake()->numberBetween(1000, 100000),
             'product_selling_price' => fake()->numberBetween(1000, 100000),
-            'unit_id' => Unit::inRandomOrder()->value('id')
+            'unit_id' => Unit::inRandomOrder()->value('id'),
+            'company_id' => Company::inRandomOrder()->value('id')
         ];
     }
 }

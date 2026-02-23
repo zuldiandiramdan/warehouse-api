@@ -13,6 +13,10 @@ class CompanyUserSeeder extends Seeder
      */
     public function run(): void
     {
-        CompanyUser::factory(10)->create();
+        CompanyUser::factory()->count(10)->make()->unique(function ($item) {
+            return $item['user_id'] . '-' . $item['company_id'];
+        })->each(function ($item) {
+            $item->save();
+        });
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Company;
 use App\Models\Unit;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,6 +18,7 @@ return new class extends Migration
             $table->string('unit_name', 100);
             $table->boolean('is_big_unit')->default(false);
             $table->foreignIdFor(Unit::class, 'smallest_unit_id')->nullable()->nullOnDelete();
+            $table->foreignIdFor(Company::class);
             $table->integer('smallest_amount')->nullable();
         });
     }
