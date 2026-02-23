@@ -128,6 +128,10 @@ class ApiAuthController extends Controller
             throw ValidationException::withMessages(['email' => ['Invalid credentials']]);
         }
 
+        $user->tokens()
+            ->where('expires_at', '<', now())
+            ->delete();
+
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
