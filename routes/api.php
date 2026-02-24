@@ -29,4 +29,5 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/transaction/insert', [ApiTransactionController::class, 'store']);
 
     Route::post('logout', [ApiAuthController::class, 'logout']);
+    Route::get('check-token',[ApiAuthController::class, 'checkToken']);
 });

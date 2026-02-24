@@ -51,4 +51,11 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Company::class, 'company_users');
     }
+
+    public function currentCompanyId(): ?int
+    {
+        return $this->companies()
+            // ->wherePivot('is_active', true)
+            ->value('companies.id');
+    }
 }

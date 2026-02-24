@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Scopes\CompanyScope;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -21,6 +22,12 @@ class Product extends Model
     public function unit()
     {
         return $this->belongsTo(Unit::class);
+    }
+
+    // filter for company_id
+    protected static function booted()
+    {
+        static::addGlobalScope(new CompanyScope);
     }
 
     public function transactionDetails()

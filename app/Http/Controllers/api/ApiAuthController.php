@@ -171,4 +171,38 @@ class ApiAuthController extends Controller
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Token revoked']);
     }
+
+    #[OA\Get(
+        path: '/api/check-token',
+        tags: ['Auth'],
+        summary: 'Check token validity and get authenticated user',
+        description: 'Validates Sanctum Bearer token and returns authenticated user data',
+        security: [['sanctum' => []]],
+        responses: [
+            new OA\Response(
+                response: 200,
+                description: 'Authenticated',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'id', type: 'integer'),
+                        new OA\Property(property: 'name', type: 'string'),
+                        new OA\Property(property: 'email', type: 'string'),
+                    ]
+                )
+            ),
+            new OA\Response(
+                response: 401,
+                description: 'Unauthenticated',
+                content: new OA\JsonContent(
+                    properties: [
+                        new OA\Property(property: 'message', type: 'string', example: 'Unauthenticated'),
+                    ]
+                )
+            )
+        ]
+    )]
+    public function checkToken(Request $request)
+    {
+        return $request->user();
+    }
 }
