@@ -9,7 +9,7 @@ class TransactionMaster extends Model
 {
     /** @use HasFactory<\Database\Factories\TransactionMasterFactory> */
     use HasFactory;
-    protected $fillable = ['transaction_date', 'transaction_type_id'];
+    protected $fillable = ['transaction_date', 'transaction_type_id', 'company_id'];
 
     public function details()
     {

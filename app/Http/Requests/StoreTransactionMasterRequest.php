@@ -16,6 +16,20 @@ class StoreTransactionMasterRequest extends FormRequest
         return true;
     }
 
+    public function prepareForValidation()
+    {
+        $companyId = $this->user()?->currentCompanyId();
+        if (!$companyId) {
+            abort(403, 'User has no active company');
+        }
+
+        $this->merge([
+            'company_id' => $companyId,
+        ]);
+    }
+
+
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -28,7 +42,8 @@ class StoreTransactionMasterRequest extends FormRequest
             'items' => ['required', 'array', 'min:1'],
             'items.*.productId' => ['required', 'exists:products,id'],
             'items.*.qty' => ['required', 'integer', 'min:1'],
-            'items.*.productPrice' => ['required','integer'],
+            'items.*.productPrice' => ['required', 'integer'],
+            'company_id' => ['required', 'exists:companies,id']
         ];
     }
 }

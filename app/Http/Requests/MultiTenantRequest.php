@@ -10,9 +10,13 @@ abstract class MultiTenantRequest extends FormRequest
     public function authorize(): bool
     {
         $model = $this->getModelInstance();
-        if (!$model) return false;
 
-        // Auto-use the policy
+        // Store route → no model yet
+        if (!$model) {
+            return $this->user()->can('create', $this->getModelClass());
+        }
+
+        // Update / delete route → model exists
         return $this->user()->can('update', $model);
     }
 
@@ -28,18 +32,21 @@ abstract class MultiTenantRequest extends FormRequest
 
     protected function getModelInstance()
     {
-        $param = $this->route($this->getRouteParameterName());
+        $paramName = $this->getRouteParameterName();
+        if (!$this->route()->hasParameter($paramName)) {
+            return null;
+        }
+
+        $param = $this->route($paramName);
 
         if (!$param) return null;
 
         $modelClass = $this->getModelClass();
 
-        // If already a model, return it
         if ($param instanceof $modelClass) {
             return $param;
         }
 
-        // Otherwise assume it’s an ID
         return $modelClass::find($param);
     }
 

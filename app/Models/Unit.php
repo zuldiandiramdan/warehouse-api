@@ -15,7 +15,7 @@ class Unit extends Model
         'unit_name',
         'is_big_unit',
         'smallest_unit_id',
-        'smallest_amount'
+        'smallest_amount',
+        'company_id'
     ];
-    
 }

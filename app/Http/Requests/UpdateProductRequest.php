@@ -17,6 +17,18 @@ class UpdateProductRequest extends MultiTenantRequest
         return Product::class;
     }
 
+    public function prepareForValidation()
+    {
+        $companyId = $this->user()?->currentCompanyId();
+        if (!$companyId) {
+            abort(403, 'User has no active company');
+        }
+
+        $this->merge([
+            'company_id' => $companyId,
+        ]);
+    }
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -28,7 +40,8 @@ class UpdateProductRequest extends MultiTenantRequest
             'product_name' => ['sometimes', 'max:250'],
             'product_selling_price' => ['sometimes', 'numeric'],
             'product_buying_price' => ['sometimes', 'numeric'],
-            'unit_id' => ['sometimes', BelongsToUserCompany::rule(Unit::class)],
+            // 'unit_id' => ['sometimes', BelongsToUserCompany::rule(Unit::class)],
+            'company_id' => ['required', 'exists:companies,id']
         ];
     }
 }

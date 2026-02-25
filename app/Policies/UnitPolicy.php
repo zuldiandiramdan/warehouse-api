@@ -6,7 +6,7 @@ use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Auth\Access\Response;
 
-class UnitPolicy
+class UnitPolicy extends BaseCompanyPolicy
 {
     /**
      * Determine whether the user can view any models.
@@ -19,10 +19,10 @@ class UnitPolicy
     /**
      * Determine whether the user can view the model.
      */
-    public function view(User $user, Unit $unit): bool
-    {
-        return false;
-    }
+    // public function view(User $user, Unit $unit): bool
+    // {
+    //     return false;
+    // }
 
     /**
      * Determine whether the user can create models.
@@ -35,18 +35,18 @@ class UnitPolicy
     /**
      * Determine whether the user can update the model.
      */
-    public function update(User $user, Unit $unit): bool
-    {
-        return false;
-    }
+    // public function update(User $user, Unit $unit): bool
+    // {
+    //     return false;
+    // }
 
-    /**
-     * Determine whether the user can delete the model.
-     */
-    public function delete(User $user, Unit $unit): bool
-    {
-        return false;
-    }
+    // /**
+    //  * Determine whether the user can delete the model.
+    //  */
+    // public function delete(User $user, Unit $unit): bool
+    // {
+    //     return false;
+    // }
 
     /**
      * Determine whether the user can restore the model.

@@ -16,7 +16,8 @@ class TransactionService
         return DB::transaction(function () use ($type, $data) {
             $transactionMaster = TransactionMaster::create([
                 'transaction_type_id' => $type->id,
-                'transaction_date' => now()
+                'transaction_date' => now(),
+                'company_id' => $data['company_id']
             ]);
 
             foreach ($data['items'] as $item) {

@@ -17,6 +17,7 @@ class Product extends Model
         'product_buying_price',
         'unit_id',
         'product_stock',
+        'company_id'
     ];
 
     public function unit()

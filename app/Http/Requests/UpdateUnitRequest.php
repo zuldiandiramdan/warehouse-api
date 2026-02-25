@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Unit;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateUnitRequest extends FormRequest
@@ -9,9 +10,21 @@ class UpdateUnitRequest extends FormRequest
     /**
      * Determine if the user is authorized to make this request.
      */
-    public function authorize(): bool
+    protected function getModelClass(): string
     {
-        return true;
+        return Unit::class;
+    }
+
+    public function prepareForValidation()
+    {
+        $companyId = $this->user()?->currentCompanyId();
+        if (!$companyId) {
+            abort(403, 'User has no active company');
+        }
+
+        $this->merge([
+            'company_id' => $companyId,
+        ]);
     }
 
     /**
@@ -25,7 +38,8 @@ class UpdateUnitRequest extends FormRequest
             'unit_name' => ['sometimes'],
             'is_big_unit' => ['sometimes', 'boolean'],
             'smallest_unit_id' => ['sometimes', 'exists:unit'],
-            'smallest_amount' => ['sometimes','numeric']
+            'smallest_amount' => ['sometimes', 'numeric'],
+            'company_id' => ['required', 'exists:companies,id']
         ];
     }
 }
