@@ -29,6 +29,16 @@ class ApiUnitController extends Controller
                 schema: new OA\Schema(type: 'integer', example: 10)
             ),
             new OA\Parameter(
+                name: 'sort_by',
+                in: 'query',
+                schema: new OA\Schema(type: 'string')
+            ),
+            new OA\Parameter(
+                name: 'sort_order',
+                in: 'query',
+                schema: new OA\Schema(type: 'string')
+            ),
+            new OA\Parameter(
                 name: 'search',
                 in: 'query',
                 schema: new OA\Schema(type: 'string')
@@ -51,11 +61,15 @@ class ApiUnitController extends Controller
     {
         $query = Unit::query();
 
-        if($request->filled('search')) {
-            $query->where('unit_name','like','%'.$request->search.'%');
+        if ($request->filled('search')) {
+            $query->where('unit_name', 'like', '%' . $request->search . '%');
         }
 
-        $units = PaginationHelper::paginate($query, $request);
+        $units = PaginationHelper::paginate(
+            query: $query,
+            request: $request,
+            allowedSortColumns: ['unit_name']
+        );
         return UnitResource::collection($units);
     }
 
@@ -94,7 +108,7 @@ class ApiUnitController extends Controller
     {
         return new UnitResource($unit);
     }
-    
+
     #[OA\Post(
         path: '/api/units',
         tags: ['Units'],

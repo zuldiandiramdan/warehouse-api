@@ -33,6 +33,16 @@ class ApiProductController extends Controller
                 in: 'query',
                 schema: new OA\Schema(type: 'string')
             ),
+            new OA\Parameter(
+                name: 'sort_by',
+                in: 'query',
+                schema: new OA\Schema(type: 'string')
+            ),
+            new OA\Parameter(
+                name: 'sort_order',
+                in: 'query',
+                schema: new OA\Schema(type: 'string')
+            ),
         ],
         security: [
             ['sanctum' => []] // Require token (Laravel Sanctum)
@@ -55,7 +65,11 @@ class ApiProductController extends Controller
             $query->where('product_name', 'like', '%' . $request->search . '%');
         }
 
-        $products = PaginationHelper::paginate($query, $request);
+        $products = PaginationHelper::paginate(
+            query: $query,
+            request: $request,
+            allowedSortColumns: ['id', 'product_name', 'product_stock', 'product_selling_price', 'product_buying_price']
+        );
 
         return ProductResource::collection($products);
     }

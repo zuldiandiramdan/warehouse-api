@@ -11,7 +11,10 @@ class PaginationHelper
         Builder $query,
         Request $request,
         int $defaultLimit = 10,
-        int $maxLimit = 300
+        int $maxLimit = 300,
+        string $defaultSortBy = 'id',
+        string $defaultSortDir = 'asc',
+        array $allowedSortColumns = []
     ) {
         $limit = (int) $request->query('limit', $defaultLimit);
 
@@ -22,6 +25,15 @@ class PaginationHelper
         if ($limit > $maxLimit) {
             $limit = $maxLimit;
         }
+
+        $sortBy  = $request->query('sort_by', $defaultSortBy);
+        $sortDir = strtolower($request->query('sort_order', $defaultSortDir)) === 'asc' ? 'asc' : 'desc';
+
+        if (!empty($allowedSortColumns) && !in_array($sortBy, $allowedSortColumns, true)) {
+            $sortBy = $defaultSortBy;
+        }
+
+        $query->orderBy($sortBy, $sortDir);
 
         return $query->paginate($limit);
     }
